@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--iBatis 和 MyBatis 的全局配置文件使用不同的 DTD 约束，在将应用由 iBatis 升级至 MyBatis 时需要注意（两者的映射文件 
+	DTD 约束也不相同） --> 
+ <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+  	
+	<typeAliases>
+		<typeAlias type="org.mybatis.xml.model.User" alias="User" />
+		<typeAlias type="org.mybatis.xml.model.Group" alias="Group" />
+		<typeAlias type="org.mybatis.xml.model.Person" alias="Person" />
+	</typeAliases>
+	<!--  -->
+	<plugins>
+		
+		<plugin interceptor="org.mybatis.xml.plugin.PagePlugin">
+			<property name="dialect" value="mysql"/>
+ 		</plugin>
+	</plugins>
+
+	<environments default="development">
+		<!-- 开发环境 -->
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="com.mysql.jdbc.Driver" />
+				<property name="url" value="jdbc:mysql://localhost:3306/mybatis_xml" />
+				<property name="username" value="root" />
+				<property name="password" value="root" />
+			</dataSource>
+		</environment>
+	</environments>
+	
+	<mappers>
+		<mapper resource="org/mybatis/xml/dao/UserDao.xml"/>
+		<mapper resource="org/mybatis/xml/dao/GroupMapper.xml"/>
+		<mapper resource="org/mybatis/xml/dao/PersonMapper.xml"/>
+	</mappers>
+	
+	
+	
+
+</configuration>

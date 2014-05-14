@@ -1,0 +1,211 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.ljj</groupId>
+	<artifactId>mybatis-parent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+
+	<!-- 一些常用的变量定义 -->
+	<properties>
+		<!-- 项目构建编码 -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<junit.version>4.11</junit.version>
+		<springframework.version>3.2.4.RELEASE</springframework.version>
+		<aspectj.version>1.6.11</aspectj.version>
+		<servlet.version>2.5</servlet.version>
+		<servlet.jsp.version>2.1</servlet.jsp.version>
+		<log4j.version>1.2.17</log4j.version>
+		<mybatis.version>3.2.2</mybatis.version>
+		<mysql.version>5.1.25</mysql.version>
+		<mybatis-spring.version>1.2.2</mybatis-spring.version>
+		<alibabaDataSource.version>0.2.25</alibabaDataSource.version>
+
+	</properties>
+
+	<!-- 依赖管理 -->
+	<dependencies>
+		<dependency>
+			<groupId>com.google</groupId>
+			<artifactId>google</artifactId>
+			<version>1</version>
+			<type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>13.0.1</version>
+		</dependency>
+
+		<!-- Servlet容器jar -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>${servlet.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>${servlet.jsp.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- 测试 -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- mybatis -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>${mybatis.version}</version>
+		</dependency>
+		<!-- mysql驱动 -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>${alibabaDataSource.version}</version>
+		</dependency>
+		<!-- log4j日志 -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+		<!-- mybatis-spring -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>${mybatis-spring.version}</version>
+		</dependency>
+
+		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${aspectj.version}</version>
+		</dependency>
+	</dependencies>
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+					<!-- 跳过编译测试代码 <skip>true</skip> -->
+				</configuration>
+			</plugin>
+			<!-- jetty -->
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>8.1.15.v20140411</version>
+				<configuration>
+					<scanIntervalSeconds>10</scanIntervalSeconds>
+					<webAppConfig>
+						<contextPath>/operator</contextPath>
+					</webAppConfig>
+					<connectors>
+						<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+							<port>9090</port>
+							<maxIdleTime>60000</maxIdleTime>
+						</connector>
+					</connectors>
+				</configuration>
+			</plugin>
+
+			<!-- cargo 自动化部署 -->
+			<plugin>
+				<groupId>org.codehaus.cargo</groupId>
+				<artifactId>cargo-maven2-plugin</artifactId>
+				<version>1.4.8</version>
+				<configuration>
+					<container>
+						<containerId>tomcat7x</containerId>
+						<home>${local.tomcat7.home}</home>
+						<type>installed</type>
+					</container>
+
+					<configuration>
+						<type>standalone</type>
+						<home>${project.build.directory}/tomcat7</home>
+
+						<properties>
+							<cargo.servlet.port>8088</cargo.servlet.port>
+							<cargo.rmi.port>1099</cargo.rmi.port>
+							<cargo.tomcat.ajp.port>8009</cargo.tomcat.ajp.port>
+							<!-- <cargo.tomcat.manager.url>http://127.0.0.1:8080/manager</cargo.tomcat.manager.url> 
+								<cargo.remote.username></cargo.remote.username> <cargo.remote.password></cargo.remote.password> -->
+						</properties>
+
+					</configuration>
+
+					<deployables>
+						<deployable>
+							<groupId>${project.groupId}</groupId>
+							<artifactId>${project.artifactId}</artifactId>
+							<type>war</type>
+						</deployable>
+					</deployables>
+
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+
+	<modules>
+		<module>mybatis-xml</module>
+	</modules>
+</project>

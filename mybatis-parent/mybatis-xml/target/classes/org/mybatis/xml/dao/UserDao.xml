@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="org.mybatis.xml.dao.UserDao">
+	
+	<resultMap type="User" id="UserMap">
+ 		<id column="uid" javaType="long" property="uid" />
+		<result column="username" property="username"/>
+		<result column="birthday" property="birthday" javaType="date"/>
+		<result column="groupId" property="groupId"/>
+ 		<association property="group" column="groupId" select="selectGroup"/>
+ 	</resultMap>
+ 	
+ 	<select id="selectGroup" resultType="Group">
+ 		select * from t_group where gid = #{uid}
+ 	</select>
+ 	
+ 	
+ 	<select id="findById"  resultMap="UserMap" resultType="User">
+ 		select * from t_user where uid = #{uid}
+ 	</select>
+ 	
+ 	<insert id="save" parameterType="User" keyProperty="uid" useGeneratedKeys="true">
+ 		insert into t_user(uid,username,birthday,groupId)
+ 		values(#{uid},#{username},#{birthday},#{groupId})
+ 	</insert>
+ 	
+</mapper>
+
